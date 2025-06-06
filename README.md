@@ -48,6 +48,7 @@ ALU too. In order to achieve this dual functionality, we need to add a 4-bit
 would be connected to ALU’s output and the other one to custom input. The
 selection bit of this MUX, say S<sub>reg</sub> must be 0 to let the ALU’s data pass
 through and 1 for custom value. The updated datapath is shown in Figure
+\
 ![image](https://github.com/user-attachments/assets/aedc079b-5bd8-4741-8d55-331786474c9c)
 \
 A small D flip-flop is also placed adjacent to ALU to store the carry bit

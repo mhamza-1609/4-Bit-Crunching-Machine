@@ -36,17 +36,17 @@ The block diagram of ALU is shown in Figure\
 
 ## 3.Data Registers
 
-At least two 4-bit registers are required to hold the data for ALU. The output of these two registers, say R<sub> A </sub> and R<sub> B </sub>, are directly connected to the two inputs of the ALU, A and B respectively. The output of these registers is always enabled i.e. they are always channeling data into the ALU. However the input to these registers is controlled and data can only enter into them when the input enable bit of R<sub> A </sub> and R<sub> B </sub> is at logic 1.
+At least two 4-bit registers are required to hold the data for ALU. The output of these two registers, say R<sub>A </sub> and R<sub>B </sub>, are directly connected to the two inputs of the ALU, A and B respectively. The output of these registers is always enabled i.e. they are always channeling data into the ALU. However the input to these registers is controlled and data can only enter into them when the input enable bit of R<sub>A </sub> and R<sub>B </sub> is at logic 1.
 
 ![image](https://github.com/user-attachments/assets/a4f04fb5-372d-4c0c-87d2-c26fabe51cef)
 
 ### 3.1 Functionality and Time Synchronization
-To start the computation, we need to load some initial values to R<sub> A </sub> and R<sub> B </sub>.
+To start the computation, we need to load some initial values to R<sub>A </sub> and R<sub>B </sub>.
 Moreover, we would also like to utilize these registers to save the output of
 ALU too. In order to achieve this dual functionality, we need to add a 4-bit
 1-out-of-2 data MUX before the input of registers. One of the MUX inputs
 would be connected to ALU’s output and the other one to custom input. The
-selection bit of this MUX, say S <sub> reg </sub> must be 0 to let the ALU’s data pass
+selection bit of this MUX, say S <sub>reg </sub> must be 0 to let the ALU’s data pass
 through and 1 for custom value. The updated datapath is shown in Figure
 ![image](https://github.com/user-attachments/assets/aedc079b-5bd8-4741-8d55-331786474c9c)
 \
@@ -56,13 +56,13 @@ arithmetic operation performed by ALU.
 Here the concept of clock is important. We know that registers are made
 of flip-flops that only store data on the positive edge of clock (assuming the
 enable signal is 1, otherwise clock edges are in-effective). The small triangle
-on R<sub> A </sub> and R<sub> B </sub> in Figure symbolizes input clock.\
+on R<sub>A </sub> and R<sub>B </sub> in Figure symbolizes input clock.
 
 Let’s see an example. Suppose through custom input (in past), 2 was
-stored in R<sub> A </sub> and 3 in R<sub> B </sub>. Now, enable of R<sub> A </sub> is 1, enable of R<sub> B </sub> is 0, selection bit
-(S) of ALU is 0 and S<sub> reg </sub> is also 0. At the output of ALU, the sum 5 is present.
-As soon as the positive edge of clock comes, 5 got stored in R<sub> A </sub> (as its enable
-pin was high) and appears at the output of R<sub> A </sub>, the output of ALU becomes 8.
+stored in R<sub>A</sub> and 3 in R<sub>B</sub>. Now, enable of R<sub>A</sub> is 1, enable of R<sub>B</sub> is 0, selection bit
+(S) of ALU is 0 and S<sub>reg </sub> is also 0. At the output of ALU, the sum 5 is present.
+As soon as the positive edge of clock comes, 5 got stored in R<sub>A </sub> (as its enable
+pin was high) and appears at the output of R<sub>A </sub>, the output of ALU becomes 8.
 But due to “internal gate delays”, 8 appears a few nano-seconds after the
 positive edge had passed and now it cannot enter any register until next
 positive edge arrives. We can turn down the enable pins of registers to zero,

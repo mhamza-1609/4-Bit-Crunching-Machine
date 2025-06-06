@@ -1,13 +1,13 @@
 # 4-Bit-Crunching-Machine
 This is the simple project to make a smaller the 4-Bit-Microprocessor. It requires the basic understanding of Basic gates, Flipflops and different parts in the computer.
 
-### 1. Components (Logic ICs) Used
-• 4-bit D-type Registers
-• 4-bit Binary Full Adder
-• 4-bit Binary Counter
-• Quad 2-Data Selectors
-• 2-Line to 4-Line Decoder
-• AND, OR, NOT and XOR Gates
+### 1. Components (Logic ICs) Used\
+• 4-bit D-type Registers\
+• 4-bit Binary Full Adder\
+• 4-bit Binary Counter\
+• Quad 2-Data Selectors\
+• 2-Line to 4-Line Decoder\
+• AND, OR, NOT and XOR Gates\
 • Parallel Address, Parallel 8-bit I/O EEPROM
 
 ### 2.Arithmetic Logic Unit
@@ -27,3 +27,5 @@ For inverting the bits we will use XOR gate with one input tied to the
 selection bit S, and the other to the input bit, such that when selection bit
 goes 1, the property of XOR, B ⊕ 1 = B' can be used and when it is 0 the input
 passes unaffected B ⊕ 0 = B.
+
+

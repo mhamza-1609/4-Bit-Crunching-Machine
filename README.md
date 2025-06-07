@@ -15,13 +15,11 @@ The Arithmetic Logic Unit (ALU) is the most basic and important part of any comp
 
 ### 2.1 Combinational Logic
 The circuit requirement is to add or subtract two 4-bit numbers and generate a carry. In order to choose between add and subtract operations, we will be using a selection bit. The boolean equation for such a circuit can be realized as\
-\
-           **Out = (A + B)S' OR (A − B)S**\
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     **Out = (A + B)S' OR (A − B)S**\
               \
 Here “A” and “B” are the two inputs, “Out” is the output and “S”,the selection bit. Subtraction will be carried out by inverting the bits (i.e. taking 1’s complement) of B and raising the “carry in” of adder to logic 1, in order to add an extra bit which will eventually generate 2’s complement of B.\
-\
-          **A − B = A + (1's complement of B) + 1(carry in)**\
-             **A − B = A + (2's complement of B)** 
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     **A − B = A + (1's complement of B) + 1(carry in)**\
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     **A − B = A + (2's complement of B)** 
              
 For inverting the bits we will use XOR gate with one input tied to the selection bit S, and the other to the input bit, such that when selection bit goes 1, the property of XOR, B ⊕ 1 = B' can be used and when it is 0 the input passes unaffected B ⊕ 0 = B.
 
@@ -72,22 +70,22 @@ previously stored 5.
 ### 3.2 Testing
 Let’s test our design with a small “swapping” example. Usually when we swap the values of two variables, we use another temporary variable to hold data for sometime,
 
-Initial state: x = a, y = b
-{
-temp = x
-x = y
-y = temp
-}
+Initial state: x = a, y = b \
+{ \
+&nbsp; temp = x \
+&nbsp; x = y \
+&nbsp; y = temp \
+} \
 Final state: x = b, y = a
 
 However, there is another smart algorithm to swap data of two registers without using any third register,
 
-Initial state: x = a, y = b
-{
-x = x + y
-y = x − y
-x = x − y
-}
+Initial state: x = a, y = b \
+{ \
+&nbsp; x = x + y \
+&nbsp; y = x − y \
+&nbsp; x = x − y \
+} \
 Final State: x = b, y = a
 
 There are four control signals (S<sub>reg</sub>, en<sub>R<sub>A</sub></sub>, en<sub>R<sub>B</sub></sub> and S) and the 4-bit custom input in our hands. First we shall load “a” to R<sub>A</sub> and “b” to R<sub>B</sub>, afterwhich we will execute the algorithm. Here “a” and “b” are the 4-bit custom inputs.
@@ -138,4 +136,78 @@ its address starting from zero to (length of array - 1). We will store the set o
 control signals one in each row. For example in “swapping” test, the set of
 control signals was {110x, 101x, 0100, 0011, 0101}. We can store 110x in row(0), 101x in row(1) and so on. For an 8-bit row, each set of signals (also
 called “**instruction**”) will take only four bits, the rest of bits, we don’t care.
+
+### 4.2 Program Counter
+In order to set the signals (or instruction) on the control lines of our design
+before the positive edge of clock arrives, we will be using a 4-bit counter
+connected to address line of instruction memory, such that initially the
+value of counter is zero with zeroth row activated. As soon as the positive
+edge of clock comes, zeroth instruction is executed by our design as well as
+the counter gets incremented. Now the value of counter is one and row 1 of
+instruction memory is activated. The incoming positive edge will execute
+this instruction and the process goes on.
+
+![image](https://github.com/user-attachments/assets/e5458111-1346-4d75-91d7-99ef689372cc)
+
+The program counter must have a 4-bit input and a load control such that
+when some custom input is applied to 4-bit input of counter and load
+control is kept high on the arrival of positive edge, the counter stores that
+custom input into it and start counting from that specific value on the next
+edge of clock. We wish to design a combinational logic around this feature
+of counter.\
+&nbsp;**Load = J OR (C AND "Carry out")**
+
+![image](https://github.com/user-attachments/assets/f57fbaed-8337-4268-9f5e-756a03963472)
+
+Here “J” and “C” are control signals in our hand such that when we apply
+some custom input to counter and raise J to 1, the counter starts counting
+from custom input. Similarly, when the carry out from ALU is 1 and we raise
+C to 1, the counter starts counting from custom input. This phenomenon is
+known as “**JUMP**” or “**BRANCH**” in computing language.
+
+### 4.3 Instruction Encoding
+Since the rows of instruction memory are 8-bits wide, we wish to adjust our
+all control signals to these 8-bits. Moreover, our custom input is also
+supposed to be a part of this instruction. One scheme to adjust all these
+signals is,
+
+![image](https://github.com/user-attachments/assets/1a1b1707-210d-4a1c-ad2c-f3d8c284d158)
+
+1. **Jump (J):** The seventh bit or MSB of the instruction is fixed for Jump.
+Whenever we set it to 1, the custom input will be loaded in the
+program counter.
+2. **Carry jump (C):** The sixth bit is fixed for “jump if ALU operation
+produces a carry”. Whenever we set it to 1, the custom input will be
+loaded in the program counter.
+3. **Register Address (D<sub>1</sub>D<sub>0</sub>):** The fifth and fourth bit of instruction is
+fixed for register address. The values 00, 01, 10 and 11 corresponds to
+R<sub>A</sub>, R<sub>B</sub>, R<sub>O</sub> and no register, respectively.
+4. **ALU or Custom input (S<sub>reg</sub>):** The third bit is reserved for multiplexing
+ALU or custom input. When it is 0, ALU’s output is directed to
+registers’ input otherwise, the custom input.
+5. **Custom input (immediate):** The last three bits, zeroth, first and
+second are reserved for custom input. Due to adjustment problem, we
+have to compromise custom input length (to 3-bits only). The fourth
+bit is hard wired to zero (ground), which means, we can only load
+values ranging from 0 to 7 (either in program counter or registers).
+6. **ADD or SUB (S):** The second bit of the instruction has dual function.
+Apart from being part of custom input, it is also connected to ALU
+selection bit S. This decision is taken based on the observation that
+when ALU is performing either addition or subtraction, there is no
+interference of custom input. Similarly, when we are loading some
+custom input to either registers or counter, we don’t care about ALU
+processing.
+
+## 5.Programming
+There are 9 functions we can perform with this machine. The functions and
+the set of control signals for them are,
+
+![image](https://github.com/user-attachments/assets/ebd43177-1d37-4397-8a31-f461046f43b4)
+![image](https://github.com/user-attachments/assets/7f410713-a645-49e5-8d26-2895aa13fc84)
+
+
+
+
+
+
 

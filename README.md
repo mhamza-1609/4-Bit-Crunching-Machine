@@ -236,11 +236,19 @@ In short, if you are able to successfully complete this project and can
 extend or adapt it according to your need, you have gained a strong hold on
 the basics of Processors. 
 
-## 8.Extras
+## 8.Enhancements
+1. You may connect the Outputs from R<sub>O</sub> to the some decoding logic maybe using you can create this using EEPROM. Which then maybe connected to 7-Segment Display for better presentation. [https://eater.net/8bit/output]
+
+## 9.Extras
 1. To program the EEPROM you can use the EEPROM Programmer or you can create your own from [https://github.com/beneater/eeprom-programmer].
 2. To make the clock for this processor you can refer to [https://eater.net/8bit/clock].
+3. You can also give clock from arduino (Keep in mind that if your clock is not stable output will be not correct. It will cause trouble.)
 
-
+> [!TIP]
+> 1.Always use the LED after the Instruction Memory to see what is coming out of it for better debugging.\
+> 2.Always refer to the correct datasheet of the IC and pin configurations
+> 3.Keep the wiring neat and clean avoid using jumpers.
+> 4.Add Capacitors in power rails of breadboard.
 
 
 

@@ -246,8 +246,8 @@ the basics of Processors.
 
 > [!TIP]
 > 1.Always use the LED after the Instruction Memory to see what is coming out of it for better debugging.\
-> 2.Always refer to the correct datasheet of the IC and pin configurations
-> 3.Keep the wiring neat and clean avoid using jumpers.
+> 2.Always refer to the correct datasheet of the IC and pin configurations.\
+> 3.Keep the wiring neat and clean avoid using jumpers.\
 > 4.Add Capacitors in power rails of breadboard.
 
 

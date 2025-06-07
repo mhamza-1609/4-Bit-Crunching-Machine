@@ -206,6 +206,40 @@ the set of control signals for them are,
 ![image](https://github.com/user-attachments/assets/7f410713-a645-49e5-8d26-2895aa13fc84)
 
 
+![image](https://github.com/user-attachments/assets/32ea46f5-804d-4472-8a83-cdaa06e20a26)
+
+## 6.Example Program [Fibonacci Numbers]
+Below is a Program that will produce Fibonacci sequence in the output
+register.
+
+| Step | Instruction                                       | Machine Code | Description                                   |
+|------|---------------------------------------------------|--------------|-----------------------------------------------|
+| 0    | R<sub>A</sub> = 0                                 | 00001000     | Load zero to A                                |
+| 1    | R<sub>B</sub> = 1                                 | 00011001     | Load 1 to B                                   |
+| 2    | R<sub>O</sub> = R<sub>A</sub>                     | 00100000     | Push A to output                              |
+| 3    | R<sub>B</sub> = R<sub>A</sub> + R<sub>B</sub>     | 00010000     | Add A to B                                    |
+| 4    | Jump if carry                                     | 01110000     | If A + B produces carry, jump to start        |
+| 5    | R<sub>A</sub> = R<sub>A</sub> + R<sub>B</sub>     | 00000000     | Swap A and B                                  |
+| 6    | R<sub>B</sub> = R<sub>A</sub> − R<sub>B</sub>     | 00010100     | Swap A and B                                  |
+| 7    | R<sub>A</sub> = R<sub>A</sub> − R<sub>B</sub>     | 00000100     | Swap A and B                                  |
+| 8    | Jump to 2                                         | 10110010     | Jump to 3rd instruction                       |
+
+## 7.Concluding Remarks
+The design of a number crunching machine presented in this document is
+actually a baby processor core. All the processing units integrated into your
+laptops, mobiles and embedded devices are based on the same basic
+principle. You can implement some other interesting programs like
+multiplying two numbers or generating tables of 1, 2, 3, ..., etc. You can
+extend the functionality of this machine by adding more operations to the
+ALU, increase the data chunk size from 4-bits to 6, 8, ...etc.
+In short, if you are able to successfully complete this project and can
+extend or adapt it according to your need, you have gained a strong hold on
+the basics of Processors. 
+
+## 8.Extras
+1. To program the EEPROM you can use the EEPROM Programmer or you can create your own from [https://github.com/beneater/eeprom-programmer].
+2. To make the clock for this processor you can refer to [https://eater.net/8bit/clock].
+
 
 
 
